@@ -91,7 +91,7 @@ function takeOrder() {
 
 function orderSuccess(id, quantity) {
     var update = "UPDATE products SET stock_quantity = stock_quantity - " + quantity + " WHERE id = " + id;
-
+    
     connection.query(
         update,
         { title: 'NewInventory' },
@@ -116,7 +116,7 @@ function productSales(id, quantity) {
             if (err) {
                 console.log("Error: " + err);
             } else {
-                console.log("Total Sales = " + JSON.stringify(results.message));
+                // console.log("Total Sales = " + JSON.stringify(results.message));
             }
         }
     );
