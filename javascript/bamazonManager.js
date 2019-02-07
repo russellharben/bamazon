@@ -38,7 +38,7 @@ function menuOptions() {
         }
     ]).then(function (response) {
         if (response.selection === "View Products for Sale") {
-            console.log("add to inventory");
+            
             let query = "Select * from Products";
             connection.query(
                 query,
@@ -49,14 +49,14 @@ function menuOptions() {
                     if (err) {
                         console.log(err);
                     } else {
-                        console.log(response);
+        
                         for (i = 0; i < response.length; i++) {
                             console.log("ID : " + response[i].id);
                             console.log("Product Name : " + response[i].product_name);
                             console.log("Department : " + response[i].department_name);
                             console.log("Price : $" + response[i].price);
                             console.log("Store Quantity : " + response[i].stock_quantity);
-                            console.log("--------------------------------------------")
+                            console.log("--------------------------------------------");
                         }
                     }
                 }
@@ -82,6 +82,8 @@ function menuOptions() {
                             console.log("Store Quantity : " + response[i].stock_quantity);
                             console.log("--------------------------------------------")
                         }
+                        //End DB Connection
+                        connection.end();
                     }
                 }
             )
@@ -90,7 +92,7 @@ function menuOptions() {
             inquirer.prompt([
                 {
                     name: "id",
-                    message: "Select an update to update its inventory",
+                    message: "Select an item's ID to update its inventory",
                     type: "list",
                     choices: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10",]
                 },
@@ -112,7 +114,7 @@ function menuOptions() {
                             console.log("error " + err);
                             menuOptions();
                         } else {
-                            
+
                             console.log("--------------------------------------------");
                             console.log("ID : " + inventoryData.id);
                             console.log("Store Quantity : " + inventoryData.newInventory);
@@ -146,14 +148,15 @@ function menuOptions() {
                     message: "Enter item quantity",
                     type: "input"
                 }
-            ]).then(function(addInvResponse){
-                let query = "INSERT into products (product_name, department_name, price, stock_quantity) VALUES ('" + addInvResponse.productName + "','" + addInvResponse.departmentName + "'," + addInvResponse.price + "," + addInvResponse.quantity + ")"; 
+            ]).then(function (addInvResponse) {
+                let query = "INSERT into products (product_name, department_name, price, stock_quantity) VALUES ('" + addInvResponse.productName + "','" + addInvResponse.departmentName + "'," + addInvResponse.price + "," + addInvResponse.quantity + ")";
                 connection.query(
                     query,
-                    {title: "New Product"},
-                    function(err, resp, fields){
-                        if(err){
+                    { title: "New Product" },
+                    function (err, resp, fields) {
+                        if (err) {
                             console.log(err);
+
                         } else {
                             console.log('\n')
                             console.log("New Item Added To Your Store");
@@ -162,8 +165,11 @@ function menuOptions() {
                             console.log("Department : " + addInvResponse.departmentName);
                             console.log("Price : $" + addInvResponse.price);
                             console.log("Initial Quantity : " + addInvResponse.quantity);
+
                             
                         }
+                        //End DB Connection
+                        connection.end();
                     }
                 )
             })
